@@ -1,13 +1,26 @@
-# conversores/distancia.py
+# conversores/temperatura.py
 
-def km_para_milhas(km):
-    """Converte quilômetros para milhas."""
-    return km * 0.621371
+def celsius_para_fahrenheit(celsius):
+    """Converta Celsius para Fahrenheit."""
+    return (celsius * 9/5) + 32
 
-def milhas_para_km(milhas):
-    """Converte milhas para quilômetros."""
-    return milhas / 0.621371
+def celsius_para_kelvin(celsius):
+    """Converta Fahrenheit para Celsius."""
+    return celsius + 273.15
 
-def metros_para_pes(metros):
-    """Converte metros para pés."""
-    return metros * 3.28084
+def fahrenheit_para_celsius(fahrenheit):
+    """Converta Fahrenheit para Celsius."""
+    return (fahrenheit - 32) * 5/9
+
+# Constante do módulo
+ZERO_ABSOLUTO_CELSIUS = -273.15
+
+# No final de conversores/temperatura.py:
+
+if __name__ == "__main__":
+    # Este bloco SÓ executa ao rodar temperatura.py diretamente.
+    # Ao ser importado por main.py, este bloco é IGNORADO.
+    print("Testando temperatura.py...")
+    print(f"100°C = {celsius_para_fahrenheit(100)}°F   (esperado: 212.0)")
+    print(f"0°C = {celsius_para_kelvin(0)} K           (esperado: 273.15)")
+    print("OK!")
