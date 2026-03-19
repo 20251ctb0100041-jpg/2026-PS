@@ -1,3 +1,4 @@
+
 catalogo = [
     {"titulo": "O Programador Pratmático", "autor": "Andrew Hunt", "disponivel": True},
     {"titulo": "Código Limpo", "autor": "Robert C. Martin", "disponivel": False},
