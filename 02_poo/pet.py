@@ -1,14 +1,3 @@
-'''
-============================================
-# ARQUIVO   : pet.py 
-# Diciplina : Programação de Sistemas (2026-2)
-# Aula      : Aula 20 - Por que POO?
-# Autor     : Otávio Augusto
-# Conceitos : Classe, objeto, atributos, métodos, encapsulamento
-# Atividade : Classe Pet
-=============================================
-'''
-
 class Pet:
     def __init__(self, nome, especie, idade, raca, dono, telefone_dono, status_da_vacina, peso):
         self.nome = nome
@@ -82,42 +71,3 @@ class Pet:
             f"Valor da diária: R$ {diaria:.2f}\n"
         )
         print(resumo)
-
-# Pet 1
-pet1 = Pet("Rex", "Cachorro", 5, "pitbull", "Luiz Carlos", "99999-9999", True, 20)
-
-# Pet 2
-pet2 = Pet("Luna", "Gato", 2, "siamês", "Jeniffer", "88888-8888", False, 4.5)
-
-# Pet 3
-pet3 = Pet("Bidu", "Cachorro", 12, "pinscher", "João", "77777-7777", True, 15)
-
-# Testando exibir_dados
-pet1.exibir_dados()
-pet2.exibir_dados()
-pet3.exibir_dados()
-
-# Testando registrar_entrada e registrar_saida
-pet1.registrar_entrada()
-pet1.registrar_entrada()   # já está hospedado
-pet1.registrar_saida()
-pet1.registrar_saida()     # não está hospedado
-
-# Testando calcular_diaria
-print("Diária Rex:", pet1.calcular_diaria())
-print("Diária Luna:", pet2.calcular_diaria())
-print("Diária Bidu:", pet3.calcular_diaria())
-
-# Testando verificar_vacinacao
-pet1.verificar_vacinacao()
-pet2.verificar_vacinacao()
-pet3.verificar_vacinacao()
-
-# Testando atualizar_peso
-pet2.atualizar_peso(5.0)
-pet3.atualizar_peso(16.2)
-
-# Testando emitir_resumo
-pet1.emitir_resumo()
-pet2.emitir_resumo()
-pet3.emitir_resumo()
