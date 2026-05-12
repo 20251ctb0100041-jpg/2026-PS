@@ -93,13 +93,16 @@ pet2 = Pet("Luna", "Gato", 2, "siamês", "Jeniffer", "88888-8888", False, 4.5)
 pet3 = Pet("Bidu", "Cachorro", 12, "pinscher", "João", "77777-7777", True, 15)
 
 pet1.exibir_dados()
-pet2.exibir_dados()
-pet3.exibir_dados()
+pet1.registrar_entrada()
+pet1.registrar_saida()
 
-pet1.registrar_entrada()
-pet1.registrar_entrada()
-pet1.registrar_saida()
-pet1.registrar_saida()
+pet2.exibir_dados()
+pet2.registrar_entrada()
+pet2.registrar_saida()
+
+pet3.exibir_dados()
+pet3.registrar_entrada()
+pet3.registrar_saida()
 
 print("Diária Rex:", pet1.calcular_diaria())
 print("Diária Luna:", pet2.calcular_diaria())
@@ -109,6 +112,7 @@ pet1.verificar_vacinacao()
 pet2.verificar_vacinacao()
 pet3.verificar_vacinacao()
 
+pet3.atualizar_peso(9.1)
 pet2.atualizar_peso(5.0)
 pet3.atualizar_peso(16.2)
 
