@@ -1,0 +1,68 @@
+[
+    {
+        "nome": "ronaldo",
+        "especie": "cachorro",
+        "idade": 14,
+        "peso": 23.0,
+        "altura": " 1,18",
+        "data_nascimento": "maria",
+        "nome_dono": "18/06",
+        "vacinado": true,
+        "hospedado": false
+    },
+    {
+        "nome": "luiz",
+        "especie": "primata",
+        "idade": 14,
+        "peso": 55.0,
+        "altura": " 1,81",
+        "data_nascimento": "0",
+        "nome_dono": "",
+        "vacinado": true,
+        "hospedado": false
+    },
+    {
+        "nome": "ronaldo",
+        "especie": "cachorro",
+        "idade": 15,
+        "peso": 13.0,
+        "altura": " 1,12",
+        "data_nascimento": "Marcos",
+        "nome_dono": "12/07",
+        "vacinado": true,
+        "hospedado": false
+    },
+    {
+        "nome": "Rafael",
+        "especie": "Baleia",
+        "idade": 12,
+        "peso": 21.0,
+        "altura": "1,12",
+        "data_nascimento": "Veia",
+        "nome_dono": "07/04",
+        "vacinado": false,
+        "hospedado": false
+    },
+    {
+        "nome": "artur",
+        "especie": "macaco albino",
+        "idade": 15,
+        "peso": 49.0,
+        "altura": " 1,67",
+        "data_nascimento": "Ronaldo",
+        "nome_dono": "18/06",
+        "vacinado": true,
+        "hospedado": false
+    },
+    {
+        "nome": "eduard",
+        "especie": "cao",
+        "idade": 14,
+        "peso": 13.0,
+        "altura": "12",
+        "data_nascimento": "yuri",
+        "nome_dono": "12",
+        "vacinado": true,
+        "hospedado": false
+    }
+]
