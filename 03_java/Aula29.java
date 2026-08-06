@@ -59,3 +59,4 @@ public class Aula29 {
         System.out.println("Situação: " + ((media >= 6.0) ? "APROVADA" : "EM RECUPERAÇÃO"));
     }
     }
+    

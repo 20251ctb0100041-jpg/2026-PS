@@ -1,4 +1,4 @@
-package Sys.loja; 
+package Sys_aula30.loja; 
 
 public class Main {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package Sys.loja;
+package Sys_aula30.loja;
 
 public class Produto {
     private String nome;
