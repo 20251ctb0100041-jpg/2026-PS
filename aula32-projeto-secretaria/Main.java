@@ -110,7 +110,7 @@ public class Main {
                 return a;
             }
         }
-        return null; // percorreu tudo e nao achou
+        return null; // percorreu tudo e le nao achou
     }
 
     // O balcao pergunta a matricula e usa a busca para responder.
