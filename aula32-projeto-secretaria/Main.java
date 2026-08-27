@@ -25,6 +25,7 @@ public class Main {
             System.out.println("[4] Atualizar aluno");
             System.out.println("[5] Remover aluno");
             System.out.println("[6] Relatorio");
+            System.out.println("[7] Buscar por nome");
             System.out.println("[0] Sair");
             System.out.print("Sua escolha: ");
 
@@ -45,8 +46,10 @@ public class Main {
                 remover(lista, teclado);
             } else if (opcao.equals("6")) {
                 relatorio(lista, teclado);
+            } else if (opcao.equals("7")) {
+                buscarPorNomeBalcao(lista, teclado);
             } else {
-                System.out.println("Opcao invalida! Vale 0, 1, 2, 3, 4, 5 ou 6.");
+                System.out.println("Opcao invalida! Vale 0, 1, 2, 3, 4, 5, 6 ou 7.");
             }
         }
 
@@ -181,5 +184,29 @@ public class Main {
             }
         }
         System.out.println("Alunos de " + curso + ": " + contador); // usar
+    }
+
+    // Devolve a primeira ficha encontrada pelo nome, ou null se nao existir.
+    static Aluno buscarPorNome(ArrayList<Aluno> lista, String nome) {
+        for (int i = 0; i < lista.size(); i++) {
+            Aluno a = lista.get(i);
+            if (a.getNome().equalsIgnoreCase(nome)) {
+                return a;
+            }
+        }
+        return null; // percorreu tudo e nao achou
+    }
+
+    // Acao do menu [7]
+    static void buscarPorNomeBalcao(ArrayList<Aluno> lista, Scanner teclado) {
+        System.out.print("Nome procurado: ");
+        String nome = teclado.nextLine().trim();
+        Aluno a = buscarPorNome(lista, nome);
+
+        if (a == null) {
+            System.out.println("Nenhuma ficha com o nome " + nome + ".");
+        } else {
+            System.out.println("Achei: " + a);
+        }
     }
 }
