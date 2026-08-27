@@ -47,4 +47,13 @@ public class Aluno {
     public void setCidade(String cidade) {
         this.cidade = cidade;    // atualiza o atributo "cidade" com o novo valor recebido
     }
+
+    // toString: como a ficha se apresenta quando alguem manda imprimi-la.
+    // Sem ele, System.out.println(aluno) mostra Aluno@7ad041f3.
+    // O @Override avisa o compilador: estou trocando um metodo que toda
+    // classe ja tem por uma versao minha.
+    @Override
+    public String toString() {
+        return matricula + " | " + nome + " | " + curso + " | " + cidade;
+    }
 }

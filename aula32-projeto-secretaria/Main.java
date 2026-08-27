@@ -24,6 +24,7 @@ public class Main {
             System.out.println("[3] Buscar aluno");
             System.out.println("[4] Atualizar aluno");
             System.out.println("[5] Remover aluno");
+            System.out.println("[6] Relatorio");
             System.out.println("[0] Sair");
             System.out.print("Sua escolha: ");
 
@@ -42,8 +43,10 @@ public class Main {
                 atualizar(lista, teclado);
             } else if (opcao.equals("5")) {
                 remover(lista, teclado);
+            } else if (opcao.equals("6")) {
+                relatorio(lista, teclado);
             } else {
-                System.out.println("Opcao invalida! Vale 0, 1, 2, 3, 4 ou 5.");
+                System.out.println("Opcao invalida! Vale 0, 1, 2, 3, 4, 5 ou 6.");
             }
         }
 
@@ -81,19 +84,16 @@ public class Main {
 
     // Percorre o gaveteiro e imprime ficha por ficha
     static void listar(ArrayList<Aluno> lista) {
-        if (lista.isEmpty()) {
-            System.out.println("Nenhuma ficha cadastrada.");
-        } else {
-            System.out.println("--- FICHAS NO GAVETEIRO: " + lista.size() + " ---");
+        if (lista.size() == 0) {
+            System.out.println("Nenhuma ficha no gaveteiro ainda.");
+            return;
+        }
 
-            for (Aluno aluno : lista) {
-                System.out.println(
-                    aluno.getMatricula() + " | "
-                    + aluno.getNome() + " | "
-                    + aluno.getCurso() + " | "
-                    + aluno.getCidade()
-                );
-            }
+        System.out.println("--- FICHAS NO GAVETEIRO: " + lista.size() + " ---");
+
+        for (int i = 0; i < lista.size(); i++) {
+            Aluno a = lista.get(i);
+            System.out.println(a); // a impressao chama o toString sozinha
         }
     }
 
@@ -120,7 +120,7 @@ public class Main {
         if (a == null) {
             System.out.println("Nenhuma ficha com a matricula " + matricula + ".");
         } else {
-            System.out.println("Achei: " + a.getMatricula() + " | " + a.getNome() + " | " + a.getCurso() + " | " + a.getCidade());
+            System.out.println("Achei: " + a);
         }
     }
 
@@ -141,7 +141,7 @@ public class Main {
         // a variavel a segura a MESMA ficha que esta na lista: mudar por
         // aqui muda o que a listagem mostra depois. Nao precisa reinserir.
         a.setCurso(novoCurso);
-        System.out.println("Ficha atualizada: " + a.getMatricula() + " | " + a.getNome() + " | " + a.getCurso() + " | " + a.getCidade());
+        System.out.println("Ficha atualizada: " + a);
     }
 
     // Acao destrutiva pede confirmacao. Padrao de sistema de verdade.
@@ -164,5 +164,22 @@ public class Main {
         } else {
             System.out.println("Remocao cancelada.");
         }
+    }
+
+    // RELATORIO: o padrao preparar -> percorrer -> usar, da Aula 29.
+    static void relatorio(ArrayList<Aluno> lista, Scanner teclado) {
+        System.out.println("--- RELATORIO DA SECRETARIA ---");
+        System.out.println("Total de fichas: " + lista.size());
+        System.out.print("Contar alunos de qual curso? ");
+        String curso = teclado.nextLine().trim();
+
+        int contador = 0;                        // preparar (ANTES do for)
+        for (int i = 0; i < lista.size(); i++) { // percorrer
+            Aluno a = lista.get(i);
+            if (a.getCurso().equals(curso)) {
+                contador = contador + 1;
+            }
+        }
+        System.out.println("Alunos de " + curso + ": " + contador); // usar
     }
 }
