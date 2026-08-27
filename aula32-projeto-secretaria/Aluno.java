@@ -10,11 +10,13 @@ public class Aluno {
     private String nome;          // ATRIBUTO PRIVADO, guarda o nome do aluno
     private String matricula;     // guarrda a matricula do aluno
     private String curso;         // guarda o curso do aluno
+    private String cidade;
 
-    public Aluno(String nome, String matricula, String curso) {
+    public Aluno(String nome, String matricula, String curso, String cidade) {
         this.nome = nome;                 // "this.nome" atributo da classe, recebe o valor do parâmetro "nome"
         this.matricula = matricula;       // Atributo "matricula" recebe o valor passado no parâmetro
         this.curso = curso;               // Atributo "curso" recebe o valor passado no parâmetro
+        this.cidade = cidade; 
     }
 
     // método GETTERS: servem para acessar os valores dos atributos fora da classe
@@ -29,6 +31,10 @@ public class Aluno {
         return curso;      // retorna o valor dop atributo "curso"
     }
 
+    public String getCidade() {
+        return cidade;
+    }
+
     // método SETTERS: servem para alterar od valores dos atributos dps que o objeto ja foi criado
     public void setNome(String nome) {
         this.nome = nome;       // atualiza oa tributo "nome" com o novo valor recebido
@@ -36,5 +42,9 @@ public class Aluno {
 
     public void setCurso(String curso) {
         this.curso = curso;    // atualiza o atributo "curso" com o novo valor recebido
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;    // atualiza o atributo "cidade" com o novo valor recebido
     }
 }
