@@ -17,7 +17,7 @@ public class Main {
 
         while (true) {
             System.out.println("=====================================");
-            System.out.println("        SECRETARIA DO SEU NOME");
+            System.out.println("        SECRETARIA DO CAMPUS - por Otávio");
             System.out.println("=====================================");
             System.out.println("[1] Cadastrar aluno");
             System.out.println("[2] Listar alunos");
