@@ -32,7 +32,7 @@ public class Produto {
 
     // Tarefa 5: Sobrecarga de Métodos
     // Versão 1: Altera o preço diretamente
-    public void alterarPreco(double preco) { //
+    public void alterarPreco(double preco) { 
         setPreco(preco);
     }
 
