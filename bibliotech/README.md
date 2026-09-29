@@ -41,3 +41,8 @@ A cliente é a bibliotecária do campus. Atualmente os empréstimos são control
 ![Diagrama de casos de uso do BiblioTech](docs/casos-de-uso.svg)
 
 ![Diagrama de classes do BiblioTech](docs/classes.svg)
+
+## 5. O que o codigo devolveu ao diagrama (Aula 37)
+
+- Livro ganhou o atributo disponivel: boolean, porque estaDisponivel() precisa guardar o estado
+- Leitor ganhou livrosEmMaos: int, porque podePegarEmprestado() compara com o limite
