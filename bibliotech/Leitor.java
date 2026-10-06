@@ -42,7 +42,7 @@ public class Leitor extends Usuario {
     @Override
     public String toString() {
         // Linha 43 alterada para usar getNome()
-        return "Leitor " + getNome() + " (" + getMatricula() + ") - "
+        return "Leitor " + super.toString() + " - "
                 + livrosEmMaos + " de " + limiteEmprestimos + " livros";
     }
 }
