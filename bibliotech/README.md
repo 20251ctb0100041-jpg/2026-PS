@@ -73,7 +73,9 @@ java TelaBiblioteca
 
 ## 8. O que o BiblioTech ainda nao faz
 
-- HU05: ver os emprestimos atrasados. O emprestimo ainda nao tem prazo.
-- RNF02: qualquer pessoa que abre a janela pode emprestar e devolver; nao ha login de bibliotecario.
+## 8. O que o BiblioTech ainda nao faz
+
+- HU05: ver os emprestimos atrasados. O sistema registra a data prevista de devolucao (7 dias), mas ainda nao exibe relatorio de atrasos.
+- RNF02: qualquer pessoa que abre a janela pode emprestar e devolver; nao ha controle de autenticacao/login.
 - Cadastrar livro e leitor pela janela: hoje o cadastro esta no `main` de `TelaBiblioteca`.
 - Guardar os dados: ao fechar o programa, os emprestimos se perdem.
