@@ -60,11 +60,9 @@ public class LivroDAO {
         }
     }
 
-    public List<String> listarLivros() {
-        List<String> livros = new ArrayList<>();
-
-        // Consulta ordenada por ano decrescente (Desafio Rápido)
-        String sql = "SELECT id, titulo, autor, ano FROM livros ORDER BY ano DESC";
+    public List<Livro> listarLivros() {
+        List<Livro> livros = new ArrayList<>();
+        String sql = "SELECT id, titulo, autor, ano FROM livros ORDER BY titulo";
 
         try (Connection conexao = Conexao.conectar();
              PreparedStatement comando = conexao.prepareStatement(sql);
@@ -76,7 +74,7 @@ public class LivroDAO {
                 String autor = resultado.getString("autor");
                 int ano = resultado.getInt("ano");
 
-                String livro = id + " - " + titulo + " - " + autor + " (" + ano + ")";
+                Livro livro = new Livro(id, titulo, autor, ano);
                 livros.add(livro);
             }
 
@@ -85,5 +83,31 @@ public class LivroDAO {
         }
 
         return livros;
+    }
+
+    public Livro buscarLivroPorId(int id) {
+        String sql = "SELECT id, titulo, autor, ano FROM livros WHERE id = ?";
+
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+            comando.setInt(1, id);
+
+            try (ResultSet resultado = comando.executeQuery()) {
+                if (resultado.next()) {
+                    int codigo = resultado.getInt("id");
+                    String titulo = resultado.getString("titulo");
+                    String autor = resultado.getString("autor");
+                    int ano = resultado.getInt("ano");
+
+                    return new Livro(codigo, titulo, autor, ano);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar livro: " + e.getMessage());
+        }
+
+        return null;
     }
 }
