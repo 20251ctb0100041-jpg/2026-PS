@@ -3,46 +3,40 @@ import java.time.LocalDate;
 public class Emprestimo {
     private Livro livro;
     private Leitor leitor;
-    private LocalDate dataRetirada;
-    private LocalDate dataDevolucao;
     private boolean ativo;
+    private LocalDate dataEmprestimo;
+    private LocalDate dataDevolucaoPrevista;
 
     public Emprestimo(Livro livro, Leitor leitor) {
-        if (livro == null || leitor == null) {
-            throw new IllegalArgumentException(
-                "Livro e leitor sao obrigatorios."
-            );
-        }
-
         this.livro = livro;
         this.leitor = leitor;
         this.ativo = false;
+        this.dataEmprestimo = LocalDate.now();
+        this.dataDevolucaoPrevista = this.dataEmprestimo.plusDays(7);
     }
 
     public boolean realizarEmprestimo() {
-        if (ativo || !livro.estaDisponivel()
-                  || !leitor.podePegarEmprestado()) {
-            return false;
+        if (livro != null && leitor != null && livro.estaDisponivel() && leitor.podePegarEmprestado()) {
+            livro.emprestar();
+            leitor.pegouLivro();
+            this.ativo = true;
+            return true;
         }
-
-        livro.emprestar();
-        leitor.pegouLivro();
-        dataRetirada = LocalDate.now();
-        dataDevolucao = null;
-        ativo = true;
-        return true;
+        return false;
     }
 
     public boolean registrarDevolucao() {
-        if (!ativo) {
-            return false;
+        if (ativo) {
+            livro.devolver();
+            leitor.devolveuLivro();
+            this.ativo = false;
+            return true;
         }
+        return false;
+    }
 
-        livro.devolver();
-        leitor.devolveuLivro();
-        dataDevolucao = LocalDate.now();
-        ativo = false;
-        return true;
+    public boolean estaAtivo() {
+        return ativo;
     }
 
     public Livro getLivro() {
@@ -53,32 +47,14 @@ public class Emprestimo {
         return leitor;
     }
 
-    public LocalDate getDataRetirada() {
-        return dataRetirada;
-    }
-
-    public LocalDate getDataDevolucao() {
-        return dataDevolucao;
-    }
-
-    public boolean estaAtivo() {
-        return ativo;
+    public LocalDate getDataDevolucaoPrevista() {
+        return dataDevolucaoPrevista;
     }
 
     @Override
     public String toString() {
-        if (dataRetirada == null) {
-            return "Emprestimo ainda nao realizado: "
-                 + livro.getTitulo();
-        }
-
-        String situacao = ativo
-            ? "ativo"
-            : "devolvido em " + dataDevolucao;
-
-        return livro.getTitulo() + " para "
-             + leitor.getNome()
-             + " | retirada: " + dataRetirada
-             + " | " + situacao;
+        return "Emprestimo de '" + (livro != null ? livro.getTitulo() : "Desconhecido") + 
+               "' para " + (leitor != null ? leitor.getNome() : "Desconhecido") + 
+               " | Devolucao prevista: " + dataDevolucaoPrevista;
     }
 }

@@ -3,15 +3,16 @@
 - Projeto : bibliotech
 - Arquivo : Livro.java
 - Autor : Otávio Augusto
-- Descricao : a caixa "Livro" do diagrama de classes, em Java (Aula37).
+- Descricao : a caixa "Livro" do diagrama de classes, em Java (Aula 45 - Suporte a Capas).
 */
 public class Livro {
-    // ATRIBUTOS: a faixa do meio da caixa, um por linha, todos private.
+    // ATRIBUTOS
     private int id;
     private String titulo;
     private String autor;
     private int ano;
-    private boolean disponivel; // nao estava na caixa: o codigo pediu
+    private boolean disponivel;
+    private String capa; // Novo atributo da Aula 45
 
     // CONSTRUTORES
     public Livro() {
@@ -23,6 +24,15 @@ public class Livro {
         this.titulo = titulo;
         this.autor = autor;
         this.ano = ano;
+        this.disponivel = true;
+    }
+
+    public Livro(int id, String titulo, String autor, int ano, String capa) {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.ano = ano;
+        this.capa = capa;
         this.disponivel = true;
     }
 
@@ -66,12 +76,19 @@ public class Livro {
         this.ano = ano;
     }
 
-    // OPERACAO DA CAIXA: estaDisponivel(), a faixa de baixo do diagrama
+    public String getCapa() {
+        return capa;
+    }
+
+    public void setCapa(String capa) {
+        this.capa = capa;
+    }
+
+    // OPERAÇÕES
     public boolean estaDisponivel() {
         return disponivel;
     }
 
-    // Os dois metodos que o emprestimo vai usar na Aula 38.
     public void emprestar() {
         this.disponivel = false;
     }
@@ -80,7 +97,7 @@ public class Livro {
         this.disponivel = true;
     }
 
-    // toString: como a ficha se apresenta (Aula 34).
+    @Override
     public String toString() {
         String situacao = disponivel ? "disponivel" : "emprestado";
         return id + " - " + titulo + " (" + autor + ", " + ano + ") - " + situacao;

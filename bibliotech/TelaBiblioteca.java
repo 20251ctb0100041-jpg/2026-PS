@@ -1,138 +1,133 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.List;
 
-public class TelaBiblioteca extends JFrame {
-    private Biblioteca biblioteca;
-    private JTextField campoTitulo;
-    private JTextField campoMatricula;
-    private JTextArea areaAcervo;
+public class TelaLivros extends JFrame {
 
-    public TelaBiblioteca(Biblioteca biblioteca) {
-        this.biblioteca = biblioteca;
+    private final LivroDAO dao = new LivroDAO();
 
-        setTitle("BiblioTech");
-        setSize(760, 480);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private final DefaultTableModel modelo;
+    private final JTable tabela;
+
+    private final JTextField campoId = new JTextField(8);
+    private final JLabel status = new JLabel("Pronto."); // Desafio 1: Exibe contagem e mensagens
+
+    public TelaLivros() {
+
+        setTitle("BiblioTech - Consulta de Livros");
+        setSize(850, 450);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout(10, 10));
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout(8, 8));
 
-        JPanel campos = new JPanel(new GridLayout(2, 2, 8, 8));
-        campos.setBorder(
-            BorderFactory.createEmptyBorder(10, 10, 0, 10)
-        );
+        modelo = new DefaultTableModel(
+            new Object[]{"ID", "Título", "Autor", "Ano"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int linha, int coluna) {
+                return false;
+            }
+        };
 
-        campoTitulo = new JTextField();
-        campoMatricula = new JTextField();
+        tabela = new JTable(modelo);
 
-        campos.add(new JLabel("Titulo do livro:"));
-        campos.add(campoTitulo);
-        campos.add(new JLabel("Matricula do leitor:"));
-        campos.add(campoMatricula);
-        add(campos, BorderLayout.NORTH);
+        add(new JScrollPane(tabela), BorderLayout.CENTER);
 
-        areaAcervo = new JTextArea();
-        areaAcervo.setEditable(false);
-        areaAcervo.setLineWrap(true);
-        areaAcervo.setWrapStyleWord(true);
-        add(new JScrollPane(areaAcervo), BorderLayout.CENTER);
+        JPanel controles = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        JPanel botoes = new JPanel(new FlowLayout());
+        JButton atualizar = new JButton("Atualizar listagem");
+        JButton buscar = new JButton("Buscar por ID");
+        JButton mostrarTodos = new JButton("Mostrar todos");
+        JButton limpar = new JButton("Limpar"); // Desafio 3: Botão Limpar
 
-        JButton botaoEmprestar = new JButton("Emprestar");
-        JButton botaoDevolver = new JButton("Devolver");
-        JButton botaoAtualizar = new JButton("Atualizar acervo");
+        controles.add(new JLabel("ID do livro:"));
+        controles.add(campoId);
+        controles.add(buscar);
+        controles.add(limpar); // Adicionado à barra de controles
+        controles.add(atualizar);
+        controles.add(mostrarTodos);
 
-        // 5.1 Ligacoes dos eventos dos botoes
-        botaoEmprestar.addActionListener(e -> emprestar());
-        botaoDevolver.addActionListener(e -> devolver());
-        botaoAtualizar.addActionListener(e -> atualizarAcervo());
+        add(controles, BorderLayout.NORTH);
+        add(status, BorderLayout.SOUTH);
 
-        botoes.add(botaoEmprestar);
-        botoes.add(botaoDevolver);
-        botoes.add(botaoAtualizar);
-        add(botoes, BorderLayout.SOUTH);
+        // --- EVENTOS ---
 
-        atualizarAcervo();
+        atualizar.addActionListener(e -> carregarLivros());
+        mostrarTodos.addActionListener(e -> carregarLivros());
+        buscar.addActionListener(e -> buscarLivro());
+
+        // Desafio 2: Executar busca ao pressionar Enter no campo de ID
+        campoId.addActionListener(e -> buscarLivro());
+
+        // Desafio 3: Limpar o campo de ID
+        limpar.addActionListener(e -> campoId.setText(""));
+
+        carregarLivros();
     }
 
-    private void atualizarAcervo() {
-        areaAcervo.setText(biblioteca.obterAcervoComoTexto());
-        areaAcervo.setCaretPosition(0);
-    }
+    private void carregarLivros() {
+        modelo.setRowCount(0);
 
-    // 5.2 Operacoes da tela
-    private void emprestar() {
-        String titulo = campoTitulo.getText().trim();
-        String matricula = campoMatricula.getText().trim();
+        List<Livro> livros = dao.listarLivros();
 
-        if (titulo.isEmpty() || matricula.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                this, "Preencha o titulo e a matricula."
-            );
-            return;
+        for (Livro livro : livros) {
+            adicionarLinha(livro);
         }
 
-        boolean resultado = biblioteca.emprestar(titulo, matricula);
-        atualizarAcervo();
+        // Desafio 1: Exibe a quantidade total de livros carregados
+        status.setText("Livros apresentados: " + livros.size());
+    }
 
-        if (resultado) {
-            JOptionPane.showMessageDialog(
-                this, "Emprestimo realizado."
-            );
-        } else {
+    private void adicionarLinha(Livro livro) {
+        modelo.addRow(new Object[]{
+            livro.getId(),
+            livro.getTitulo(),
+            livro.getAutor(),
+            livro.getAno()
+        });
+    }
+
+    private void buscarLivro() {
+        String texto = campoId.getText().trim();
+        int id;
+
+        try {
+            id = Integer.parseInt(texto);
+
+            if (id <= 0) {
+                throw new NumberFormatException();
+            }
+
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(
                 this,
-                "Emprestimo recusado. Confira o titulo, a matricula, "
-                + "a disponibilidade e o limite do leitor."
-            );
-        }
-    }
-
-    private void devolver() {
-        String titulo = campoTitulo.getText().trim();
-
-        if (titulo.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                this, "Preencha o titulo do livro."
+                "Informe um ID inteiro positivo.",
+                "Entrada inválida",
+                JOptionPane.WARNING_MESSAGE
             );
             return;
         }
 
-        boolean resultado = biblioteca.devolver(titulo);
-        atualizarAcervo();
+        Livro livro = dao.buscarLivroPorId(id);
 
-        if (resultado) {
+        modelo.setRowCount(0);
+
+        if (livro == null) {
+            status.setText("Nenhum livro encontrado para o ID " + id);
             JOptionPane.showMessageDialog(
-                this, "Devolucao registrada."
+                this,
+                "Livro não encontrado."
             );
         } else {
-            JOptionPane.showMessageDialog(
-                this, "Nenhum emprestimo ativo encontrado para esse titulo."
-            );
+            adicionarLinha(livro);
+            status.setText("Livro encontrado: " + livro.getTitulo());
         }
     }
 
     public static void main(String[] args) {
-        Biblioteca biblioteca = new Biblioteca();
-
-        biblioteca.cadastrarLivro(
-            new Livro("Dom Casmurro", "Machado de Assis", 1899)
-        );
-        biblioteca.cadastrarLivro(
-            new Livro("Capitaes da Areia", "Jorge Amado", 1937)
-        );
-        biblioteca.cadastrarLeitor(
-            new Leitor("Pedro Alves", "2026010", 1)
-        );
-        biblioteca.cadastrarLeitor(
-            new Leitor("Ana Lima", "2026011", 2)
-        );
-
         SwingUtilities.invokeLater(() -> {
-            TelaBiblioteca tela = new TelaBiblioteca(biblioteca);
-            tela.setVisible(true);
+            new TelaLivros().setVisible(true);
         });
     }
 }

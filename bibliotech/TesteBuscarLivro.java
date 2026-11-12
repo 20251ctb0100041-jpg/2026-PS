@@ -1,40 +1,29 @@
 import java.util.Scanner;
 
 public class TesteBuscarLivro {
-
     public static void main(String[] args) {
-
-        Scanner entrada = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         LivroDAO dao = new LivroDAO();
 
-        System.out.println("=== BUSCAR LIVRO ===");
+        System.out.println("=== TESTE DE BUSCA POR ID ===");
+        System.out.print("Digite o ID do livro (ou 0 para sair): ");
 
-        int id = -1;
-
-        while (id != 0) {
-            System.out.print("\nInforme o ID (0 para sair): ");
-            id = entrada.nextInt();
-
-            if (id == 0) {
-                break;
-            }
-
-            Livro livro = dao.buscarLivroPorId(id);
-
-            if (livro != null) {
-                System.out.println("Livro encontrado:");
-                System.out.println(
-                    livro.getId() + " - " +
-                    livro.getTitulo() + " - " +
-                    livro.getAutor() + " (" +
-                    livro.getAno() + ")"
-                );
-            } else {
-                System.out.println("Livro não encontrado.");
-            }
+        if (!scanner.hasNextInt()) {
+            System.out.println("Por favor, informe apenas números inteiros!");
+            scanner.close();
+            return;
         }
 
-        System.out.println("Programa encerrado.");
-        entrada.close();
+        int id = scanner.nextInt();
+        if (id == 0) return;
+
+        Livro livro = dao.buscarLivroPorId(id);
+
+        if (livro != null) {
+            System.out.println("Livro encontrado: " + livro.getTitulo() + " - " + livro.getAutor());
+        } else {
+            System.out.println("Nenhum livro encontrado para o ID: " + id);
+        }
+        scanner.close();
     }
 }
