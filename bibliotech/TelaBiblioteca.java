@@ -3,7 +3,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-public class TelaLivros extends JFrame {
+public class TelaBiblioteca extends JFrame {
 
     private final LivroDAO dao = new LivroDAO();
 
@@ -13,7 +13,7 @@ public class TelaLivros extends JFrame {
     private final JTextField campoId = new JTextField(8);
     private final JLabel status = new JLabel("Pronto."); // Desafio 1: Exibe contagem e mensagens
 
-    public TelaLivros() {
+    public TelaBiblioteca() {
 
         setTitle("BiblioTech - Consulta de Livros");
         setSize(850, 450);
