@@ -4,11 +4,18 @@ import java.sql.SQLException;
 
 public class Conexao {
 
-    private static final String URL = "jdbc:mariadb://localhost:3306/bibliotech";
-    private static final String USUARIO = System.getenv("DB_USER");
-    private static final String SENHA = System.getenv("DB_PASSWORD");
-
     public static Connection conectar() throws SQLException {
-        return DriverManager.getConnection(URL, USUARIO, SENHA);
+        ConfiguracaoBanco config = ConfiguracaoBanco.getInstancia();
+
+        if (config.getUsuario() == null || config.getUsuario().isBlank() ||
+                config.getSenha() == null) {
+            throw new SQLException("Configure DB_USER e DB_PASSWORD antes de iniciar.");
+        }
+
+        return DriverManager.getConnection(
+            config.getUrl(),
+            config.getUsuario(),
+            config.getSenha()
+        );
     }
 }
