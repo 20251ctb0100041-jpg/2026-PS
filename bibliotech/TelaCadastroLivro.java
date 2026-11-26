@@ -2,6 +2,7 @@
  * Disciplina: 2026-PS
  * Projeto   : bibliotech
  * Arquivo   : TelaCadastroLivro.java
+ * Autor     : Otávio Augusto
  * Descricao : janela modal de cadastro de livros com validacao.
  */
 import javax.swing.*;
