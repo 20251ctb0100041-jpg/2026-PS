@@ -29,7 +29,7 @@ public class TelaLivros extends JFrame {
 
     public TelaLivros() {
         setTitle("BiblioTech — Catálogo de Livros");
-        setSize(860, 620);
+        setSize(940, 620);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         getContentPane().setBackground(fundoPagina);
@@ -70,6 +70,7 @@ public class TelaLivros extends JFrame {
         JButton botaoBuscarId = criarBotao("Buscar ID", azulMarinho, Color.WHITE);
         JButton botaoBuscarTitulo = criarBotao("Pesquisar", azulMarinho, Color.WHITE);
         JButton botaoCapa = criarBotao("Selecionar capa", Color.WHITE, azulMarinho);
+        JButton botaoNovo = criarBotao("Novo livro", azulMarinho, Color.WHITE);
         JButton botaoMostrarTodos = criarBotao("Todos", Color.WHITE, textoEscuro);
         JButton botaoLimpar = criarBotao("Limpar", Color.WHITE, textoCinza);
 
@@ -90,6 +91,7 @@ public class TelaLivros extends JFrame {
         painelControles.add(botaoBuscarTitulo);
         painelControles.add(Box.createHorizontalStrut(10));
         painelControles.add(botaoCapa);
+        painelControles.add(botaoNovo);
         painelControles.add(botaoMostrarTodos);
         painelControles.add(botaoLimpar);
 
@@ -229,6 +231,7 @@ public class TelaLivros extends JFrame {
         campoTitulo.addActionListener(e -> buscarPorTitulo());
         campoId.addActionListener(e -> buscarPorId());
         botaoCapa.addActionListener(e -> selecionarCapa());
+        botaoNovo.addActionListener(e -> novoLivro());
         botaoMostrarTodos.addActionListener(e -> carregarLivros());
         botaoLimpar.addActionListener(e -> limparCampos());
 
@@ -325,7 +328,21 @@ public class TelaLivros extends JFrame {
             JOptionPane.showMessageDialog(this, "Informe o título do livro.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        List<Livro> livros = dao.buscarLivrosPorTitulo(titulo);
+
+        List<Livro> livros;
+        try {
+            livros = dao.buscarLivrosPorTitulo(titulo);
+        } catch (PersistenciaException e) {
+            status.setText("Erro ao consultar o banco.");
+            JOptionPane.showMessageDialog(
+                this,
+                "Não foi possível buscar os livros. Verifique a conexão com o MariaDB.",
+                "Erro de conexão",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
         modelo.setRowCount(0);
         for (Livro l : livros) adicionarLinha(l);
         status.setText("Livros encontrados: " + livros.size());
@@ -339,7 +356,20 @@ public class TelaLivros extends JFrame {
         }
         try {
             int id = Integer.parseInt(idTexto);
-            Livro livro = dao.buscarLivroPorId(id);
+            Livro livro;
+            try {
+                livro = dao.buscarLivroPorId(id);
+            } catch (PersistenciaException e) {
+                status.setText("Erro ao consultar o banco.");
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível buscar o livro. Verifique a conexão com o MariaDB.",
+                    "Erro de conexão",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
             modelo.setRowCount(0);
             if (livro != null) {
                 adicionarLinha(livro);
@@ -353,15 +383,28 @@ public class TelaLivros extends JFrame {
     }
 
     private void carregarLivros() {
-        List<Livro> livros = dao.listarLivros();
-        modelo.setRowCount(0);
-        for (Livro l : livros) adicionarLinha(l);
-        status.setText("Livros encontrados: " + livros.size());
+        try {
+            List<Livro> livros = dao.listarLivros();
+            modelo.setRowCount(0);
+            for (Livro l : livros) adicionarLinha(l);
+            status.setText("Livros encontrados: " + livros.size());
+        } catch (PersistenciaException e) {
+            status.setText("Erro ao consultar o banco.");
+        }
     }
 
     private void limparCampos() {
         campoId.setText("");
         campoTitulo.setText("");
         carregarLivros();
+    }
+
+    private void novoLivro() {
+        new TelaCadastroLivro(this).setVisible(true);
+        carregarLivros();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new TelaLivros().setVisible(true));
     }
 }
