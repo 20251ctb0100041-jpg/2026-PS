@@ -73,9 +73,25 @@ java TelaBiblioteca
 
 ## 8. O que o BiblioTech ainda nao faz
 
-## 8. O que o BiblioTech ainda nao faz
-
 - HU05: ver os emprestimos atrasados. O sistema registra a data prevista de devolucao (7 dias), mas ainda nao exibe relatorio de atrasos.
 - RNF02: qualquer pessoa que abre a janela pode emprestar e devolver; nao ha controle de autenticacao/login.
 - Cadastrar livro e leitor pela janela: hoje o cadastro esta no `main` de `TelaBiblioteca`.
 - Guardar os dados: ao fechar o programa, os emprestimos se perdem.
+
+- ## Banco de dados: como recriar
+
+A estrutura esta em `banco.sql`. No Codespace, dentro da pasta `bibliotech`:
+
+    sudo service mariadb start
+    sudo mariadb < banco.sql
+
+O arquivo cria o banco `bibliotech` e a tabela `livros`, ja com a coluna `capa`. O usuario `bibliotech` e a senha dele nao estao no arquivo: crie como na Aula 42 e informe pelas variaveis `DB_USER` e `DB_PASSWORD`.
+
+## Correcoes da Aula 47
+
+| # | Sintoma | Causa | Onde corrigi | Como verifico |
+|---|---|---|---|---|
+| P1 | livro lido do banco aparecia como emprestado | o construtor com `id` nao iniciava `disponivel` | `Livro.java` | `java -cp ".:lib/*" TesteCorrecoes` |
+| P2 | `ALTER TABLE` recusado, erro 1142 | o usuario `bibliotech` nao pode mudar a estrutura | `banco.sql`, rodado como administrador | `DESCRIBE livros;` |
+| P3 | o cadastro com validacao nao compilava | a chamada mandava um `Livro` e o DAO recebe titulo, autor e ano | `TelaCadastroLivro.java` | botao Novo livro e `TesteCorrecoes` |
+| P4 | a busca dizia "Livro nao encontrado" com o banco parado | o DAO devolvia `null` para dois motivos diferentes | `LivroDAO.java` e `TelaLivros.java` | parar o MariaDB e buscar |
