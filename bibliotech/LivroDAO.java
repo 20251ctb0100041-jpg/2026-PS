@@ -21,6 +21,10 @@ public class LivroDAO {
         }
     }
 
+    public boolean adicionarLivro(String titulo, String autor, int ano) throws LivroInvalidoException {
+        return adicionarLivro(new Livro(titulo, autor, ano));
+    }
+
     public boolean adicionarLivro(Livro livro) throws LivroInvalidoException {
         ValidadorLivro.validar(livro.getTitulo(), livro.getAutor(), livro.getAno());
 
